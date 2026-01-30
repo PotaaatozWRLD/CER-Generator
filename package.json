@@ -1,0 +1,65 @@
+{
+  "name": "cer-generator",
+  "version": "1.0.0",
+  "description": "Générateur de CER (Prosit Retour) avec IA Google Gemini",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --watch",
+    "build": "electron-builder --win --x64",
+    "build:dir": "electron-builder --win --x64 --dir",
+    "package": "electron-packager . \"CER Generator\" --platform=win32 --arch=x64 --out=release-builds --overwrite"
+  },
+  "keywords": [
+    "CER",
+    "Prosit",
+    "Gemini",
+    "AI",
+    "Generator"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "electron-packager": "^17.1.2",
+    "electron-reload": "^2.0.0-alpha.1"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "canvas": "^3.2.0",
+    "electron-store": "^8.1.0",
+    "html2canvas": "^1.4.1",
+    "node-fetch": "^2.7.0",
+    "nomnoml": "^1.7.0"
+  },
+  "build": {
+    "appId": "com.cergenerator.app",
+    "productName": "CER Generator",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "html-pdf-generator.js",
+      "src/**/*"
+    ]
+  }
+}

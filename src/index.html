@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CER Generator - Générateur de Prosit Retour</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' });
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#logo-gradient)" />
+                            <path d="M16 8L24 16L16 24L8 16L16 8Z" fill="white" opacity="0.9" />
+                            <defs>
+                                <linearGradient id="logo-gradient" x1="0" y1="0" x2="32" y2="32">
+                                    <stop offset="0%" stop-color="#6366f1" />
+                                    <stop offset="100%" stop-color="#8b5cf6" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h1 class="app-title">CER Generator</h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section">
+                <!-- User Info Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">👤 Informations de l'étudiant</h2>
+                        <p class="card-subtitle">Pour l'en-tête du CER</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <input type="text" id="studentName" class="form-input"
+                                placeholder="Nom Prénom (ex: Dupont Jean)">
+                            <input type="text" id="studentPromo" class="form-input"
+                                placeholder="Promotion (ex: A3 FISA Info)">
+                            <input type="text" id="bloc" class="form-input" placeholder="Bloc (ex: Bloc Réseaux)">
+                            <input type="text" id="prositTitle" class="form-input"
+                                placeholder="Titre du Prosit (ex: Prosit 4 - IAM)">
+                            <input type="date" id="dateInput" class="form-input" title="Date du CER">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prosit Aller Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">📝 Prosit Aller</h2>
+                        <p class="card-subtitle">Mots-clés, contexte, problématique, etc.</p>
+                    </div>
+                    <div class="card-body">
+                        <textarea id="prositInput" class="prosit-input"
+                            placeholder="Exemple:&#10;&#10;Mots clés & Mots inconnus&#10;• Kerberos&#10;• AD&#10;&#10;Contexte&#10;...&#10;&#10;Problématique&#10;...&#10;&#10;Hypothèses&#10;...&#10;&#10;Plan d'actions&#10;..."></textarea>
+                        <div class="input-footer">
+                            <span class="char-count" id="charCount">0 caractères</span>
+                            <button class="btn-secondary" id="clearBtn">Effacer</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documentation Resources Card (Renamed) -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">📚 (Prosit tiré de moodle)</h2>
+                        <p class="card-subtitle">Liens, résumés des docs étudiées, notes de cours</p>
+                    </div>
+                    <div class="card-body">
+                        <textarea id="resourcesInput" class="prosit-input resources-input"
+                            placeholder="Exemple:&#10;&#10;Sources étudiées:&#10;- IT-Connect - Notions de base AD&#10;- RDR-IT - Rôles FSMO&#10;- PGSOFTWARE - Sites AD&#10;&#10;Notes:&#10;- Kerberos utilise KDC...&#10;- Les 5 rôles FSMO sont...&#10;..."></textarea>
+                        <div class="input-footer">
+                            <span class="char-count" id="resourcesCount">0 caractères</span>
+                            <button class="btn-secondary" id="clearResourcesBtn">Effacer</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Key Configuration -->
+                <div class="card api-key-card">
+                    <div class="card-header">
+                        <h3 class="card-title">🔑 Configuration API</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="api-key-input-group">
+                            <input type="password" id="apiKeyInput" class="api-key-input"
+                                placeholder="Clé API Google Gemini">
+                            <button class="btn-icon" id="toggleApiKey" title="Afficher/Masquer">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd"
+                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="api-status" id="apiStatus"></div>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="btn-primary btn-generate" id="generateBtn">
+                    <svg class="btn-icon-left" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M13 7H7v6h6V7z" />
+                        <path fill-rule="evenodd"
+                            d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span id="btnText">Générer le CER</span>
+                    <div class="spinner" id="spinner"></div>
+                </button>
+            </section>
+
+            <!-- Output Section -->
+            <section class="output-section">
+                <div class="card output-card">
+                    <div class="card-header">
+                        <h2 class="card-title">📄 CER Généré (Prosit Retour)</h2>
+                        <div class="card-actions">
+                            <button class="btn-secondary btn-sm" id="exportBtn" disabled>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M8.5 11.5l3-3h-2v-5h-3v5h-2l3 3z" />
+                                    <path d="M3 13h10v1H3z" />
+                                </svg>
+                                Exporter en PDF
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body output-body">
+                        <div class="empty-state" id="emptyState">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="32" r="32" fill="url(#empty-gradient)" opacity="0.1" />
+                                <path d="M24 20h16a4 4 0 014 4v16a4 4 0 01-4 4H24a4 4 0 01-4-4V24a4 4 0 014-4z"
+                                    stroke="url(#empty-gradient)" stroke-width="2" fill="none" />
+                                <path d="M28 28h8M28 32h8M28 36h5" stroke="url(#empty-gradient)" stroke-width="2"
+                                    stroke-linecap="round" />
+                                <defs>
+                                    <linearGradient id="empty-gradient" x1="0" y1="0" x2="64" y2="64">
+                                        <stop offset="0%" stop-color="#6366f1" />
+                                        <stop offset="100%" stop-color="#8b5cf6" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <h3>Aucun CER généré</h3>
+                            <p>Saisissez votre Prosit Aller et cliquez sur "Générer le CER"</p>
+                        </div>
+                        <div class="output-content" id="outputContent"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>

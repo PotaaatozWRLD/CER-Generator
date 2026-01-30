@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+release-builds/
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+
+# Electron builder
+builder-effective-config.yaml
+builder-debug.yml
+
+# User data (API keys)
+user-data/
+*.dat
+
+# Temporary files
+*.tmp
+temp/
+
+# Test files
+test-models.js
+
+# Executables
+*.exe
+*.msi
+*.dmg
+*.app
